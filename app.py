@@ -4,8 +4,8 @@ import pymongo
 def conn():
      myclient=pymongo.MongoClient("mongodb+srv://debajyoti:admin@crudapp.bpiim.mongodb.net/crudapp?retryWrites=true&w=majority")
      mydb=myclient["crudapp"]
-     col=mydb["information"]
-     return col
+     collection=mydb["information"]
+     return collection
         
         
     
@@ -27,6 +27,17 @@ def create():
         list={"name":name,"phone":phone,"email":email,"address":address}
         mycol.insert_one(list)
         return render_template('output.html',dname=name,dphone=phone,dmail=email,dadd=address)
+    
+    
+@app.route('/read',methods=['POST'])
+def read():
+    if request.method=='POST':
+        mycol=conn()
+        name=request.form.get('rname')
+        query={"name":name}
+        data=mycol.find_one(query)
+        return render_template('read.html',mdata=data)
+       
     
     
 if __name__=='__main__':
