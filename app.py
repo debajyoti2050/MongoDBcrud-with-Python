@@ -1,6 +1,15 @@
 from flask import Flask,render_template,request,make_response
 import pymongo
 
+def conn():
+     myclient=pymongo.MongoClient("mongodb+srv://debajyoti:admin@crudapp.bpiim.mongodb.net/crudapp?retryWrites=true&w=majority")
+     mydb=myclient["crudapp"]
+     col=mydb["information"]
+     return col
+        
+        
+    
+
 app=Flask(__name__)
 
 @app.route('/')
@@ -10,9 +19,7 @@ def index():
 @app.route('/create',methods=['POST'])
 def create():
     if request.method=='POST':
-        myclient=pymongo.MongoClient("mongodb+srv://debajyoti:admin@crudapp.bpiim.mongodb.net/crudapp?retryWrites=true&w=majority")
-        mydb=myclient["crudapp"]
-        mycol=mydb["information"]
+        mycol=conn()
         name=request.form.get('name')
         phone=request.form.get('phone')
         email=request.form.get('email')
