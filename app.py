@@ -33,10 +33,26 @@ def create():
 def read():
     if request.method=='POST':
         mycol=conn()
-        name=request.form.get('rname')
+        name=request.form.get('name')
         query={"name":name}
         data=mycol.find_one(query)
         return render_template('read.html',mdata=data)
+    
+    
+@app.route('/update',methods=['POST'])
+def update():
+    if request.method=='POST':
+        mycol=conn()
+        name=request.form.get('name')
+        newaddr=request.form.get('address')
+        query={"name":{"$eq":name}}
+        present_data=mycol.find_one(query)
+        new_data={'$set':{"address":newaddr}}
+        mycol.update_one(present_data,new_data)
+       # query2={"name":name}
+       # data=mycol.find_one(query2)
+       # return render_template('read.html',mdata=data)
+        
        
     
     
