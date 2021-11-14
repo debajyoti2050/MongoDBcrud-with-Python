@@ -2,9 +2,9 @@ from flask import Flask,render_template,request,make_response
 import pymongo
 
 def conn():
-     myclient=pymongo.MongoClient("mongodb+srv://debajyoti:admin@crudapp.bpiim.mongodb.net/crudapp?retryWrites=true&w=majority")
-     mydb=myclient["crudapp"]
-     collection=mydb["information"]
+     myclient=pymongo.MongoClient("mongodb+srv://arijit:Arijit10*@cluster0.gjpbh.mongodb.net/test?retryWrites=true&w=majority")
+     mydb=myclient["test"]
+     collection=mydb["demo"]
      return collection
         
         
@@ -49,9 +49,9 @@ def update():
         present_data=mycol.find_one(query)
         new_data={'$set':{"address":newaddr}}
         mycol.update_one(present_data,new_data)
-       # query2={"name":name}
-       # data=mycol.find_one(query2)
-       # return render_template('read.html',mdata=data)
+        query2={"name":name}
+        data=mycol.find_one(query2)
+        return render_template('read.html',mdata=data)
         
        
     
