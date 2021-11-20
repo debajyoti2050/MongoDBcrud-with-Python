@@ -21,13 +21,13 @@ def index():
 def create():
     if request.method=='POST':
         mydb,mycol=conn()
-        userid=request.form.get('userid')
+        #userid=request.form.get('userid')
         name=request.form.get('name')
         phone=request.form.get('phone')
         email=request.form.get('email')
         address=request.form.get('address')
-        list={"user_id": userid,"name":name,"phone":phone,"email":email,"address":address}
-        mycol.create_index("user_id", unique=True)
+        list={"name":name,"phone":phone,"email":email,"address":address}
+        mycol.create_index("user_id:1", unique=True)
         mycol.insert_one(list)
         return render_template('output.html',dname=name,dphone=phone,dmail=email,dadd=address)
     
