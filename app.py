@@ -2,8 +2,8 @@ from flask import Flask,render_template,request,make_response
 import pymongo
 
 def conn():
-     myclient=pymongo.MongoClient("mongodb+srv://arijit:Arijit10*@cluster0.gjpbh.mongodb.net/test?retryWrites=true&w=majority")
-     mydb=myclient["test"]
+     myclient=pymongo.MongoClient("mongodb://debajyoti:admin@debajyotidb-shard-00-00.bpiim.mongodb.net:27017,debajyotidb-shard-00-01.bpiim.mongodb.net:27017,debajyotidb-shard-00-02.bpiim.mongodb.net:27017/crudapp?ssl=true&replicaSet=atlas-r19gla-shard-0&authSource=admin&retryWrites=true&w=majority")
+     mydb=myclient["crudapp"]
      collection=mydb["demo"]
      return collection
         
