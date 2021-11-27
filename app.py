@@ -5,7 +5,7 @@ import numpy
 def conn():
      myclient=pymongo.MongoClient("mongodb://debajyoti:admin@debajyotidb-shard-00-00.bpiim.mongodb.net:27017,debajyotidb-shard-00-01.bpiim.mongodb.net:27017,debajyotidb-shard-00-02.bpiim.mongodb.net:27017/crudapp?ssl=true&replicaSet=atlas-r19gla-shard-0&authSource=admin&retryWrites=true&w=majority")
      mydb=myclient["crudapp"]
-     collection=mydb["test3"]
+     collection=mydb["test4"]
      return collection
 #def create_index():
   #  mycol=conn()
@@ -30,7 +30,7 @@ def create():
         email=request.form.get('email')
         address=request.form.get('address')
         #mydb.db[mydb.mongo_collection].create_index("user_id", unique=True)
-        mycol.create_index("user_id:1",unique=True)
+        #mycol.create_index("user_id",unique=True)        ######## must be used only once ######
         list={"user_id":userid,"name":name,"phone":phone,"email":email,"address":address}
         mycol.insert_one(list)
         return render_template('output.html',dname=name,dphone=phone,dmail=email,dadd=address)
