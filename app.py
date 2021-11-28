@@ -50,15 +50,48 @@ def read():
 def update():
     if request.method=='POST':
         mycol=conn()
-        name=request.form.get('name')
-        newaddr=request.form.get('address')
-        query={"name":{"$eq":name}}
+        #name=request.form.get('name')
+        userid=request.form.get('userid')
+        newinfo=request.form.get('info')
+        query={"user_id":{"$eq":userid}}
         present_data=mycol.find_one(query)
-        new_data={'$set':{"address":newaddr}}
-        mycol.update_one(present_data,new_data)
-        query2={"name":name}
-        data=mycol.find_one(query2)
-        return render_template('read.html',mdata=data)
+        dropvalue=request.form.get('fvalue')
+        print(dropvalue)
+        #print(present_data)
+        if (dropvalue==1):
+            new_data={'$set':{"name":newinfo}}
+            mycol.update_one(present_data,new_data)
+            query2={"user_id":userid}
+            data=mycol.find_one(query2)
+            
+        elif (dropvalue==2):
+            new_data={'$set':{"phone":newinfo}}
+            mycol.update_one(present_data,new_data)
+            query2={"user_id":userid}
+            data=mycol.find_one(query2)
+            
+        elif (dropvalue==3):
+            new_data={'$set':{"email":newinfo}}
+            mycol.update_one(present_data,new_data)
+            query2={"user_id":userid}
+            data=mycol.find_one(query2)
+            
+        else:
+            new_data={'$set':{"address":newinfo}}
+            mycol.update_one(present_data,new_data)
+            query2={"user_id":userid}
+            data=mycol.find_one(query2)
+           
+        return render_template('read.html',mdata=data)    
+        
+        
+            
+        
+       ## mycol.update_one(present_data,new_data)
+        #query2={"user_id":userid}
+        #data=mycol.find_one(query2)
+       # return render_template('read.html',mdata=data)#
+    
     
 @app.route('/delete',methods=['POST'])
 def delete():
