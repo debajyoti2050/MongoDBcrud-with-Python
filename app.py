@@ -4,9 +4,9 @@ import numpy
 
 
 def conn():
-     myclient=pymongo.MongoClient("mongodb://debajyoti:admin@debajyotidb-shard-00-00.bpiim.mongodb.net:27017,debajyotidb-shard-00-01.bpiim.mongodb.net:27017,debajyotidb-shard-00-02.bpiim.mongodb.net:27017/crudapp?ssl=true&replicaSet=atlas-r19gla-shard-0&authSource=admin&retryWrites=true&w=majority")
-     mydb=myclient["crudapp"]
-     collection=mydb["test4"]
+     myclient=pymongo.MongoClient(" use your own connection key here")
+     mydb=myclient["use your cluster name"]
+     collection=mydb["your collection name"]
      return collection
 #def create_index():
   #  mycol=conn()
