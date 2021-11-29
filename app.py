@@ -6,7 +6,7 @@ import numpy
 def conn():
      myclient=pymongo.MongoClient(" use your own connection key here")
      mydb=myclient["use your cluster name"]
-     collection=mydb["your collection name"]
+     collection=mydb["use your collection name"]
      return collection
 #def create_index():
   #  mycol=conn()
