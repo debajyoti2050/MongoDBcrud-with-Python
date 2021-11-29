@@ -62,8 +62,6 @@ def update():
         query={"user_id":{"$eq":userid}}
         present_data=mycol.find_one(query)
         dropvalue=int(request.form.get('fvalue'))
-        #dropvalue=int(dvalue)
-        #print(type(dropvalue))
         #print(present_data)
         if (dropvalue==1):
             new_data={'$set':{"name":newinfo}}
