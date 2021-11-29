@@ -2,6 +2,7 @@ from flask import Flask,render_template,request,make_response
 import pymongo
 import numpy
 
+
 def conn():
      myclient=pymongo.MongoClient("mongodb://debajyoti:admin@debajyotidb-shard-00-00.bpiim.mongodb.net:27017,debajyotidb-shard-00-01.bpiim.mongodb.net:27017,debajyotidb-shard-00-02.bpiim.mongodb.net:27017/crudapp?ssl=true&replicaSet=atlas-r19gla-shard-0&authSource=admin&retryWrites=true&w=majority")
      mydb=myclient["crudapp"]
@@ -29,19 +30,24 @@ def create():
         phone=request.form.get('phone')
         email=request.form.get('email')
         address=request.form.get('address')
-        #mydb.db[mydb.mongo_collection].create_index("user_id", unique=True)
-        #mycol.create_index("user_id",unique=True)        ######## must be used only once ######
-        list={"user_id":userid,"name":name,"phone":phone,"email":email,"address":address}
-        mycol.insert_one(list)
-        return render_template('output.html',dname=name,dphone=phone,dmail=email,dadd=address)
+        try:
+            #mydb.db[mydb.mongo_collection].create_index("user_id", unique=True)
+            #mycol.create_index("user_id",unique=True)        ######## must be used only once ######
+            list={"user_id":userid,"name":name,"phone":phone,"email":email,"address":address}
+            mycol.insert_one(list)
+            return render_template('output.html',dname=name,dphone=phone,dmail=email,dadd=address)
+        except:
+            return render_template('error.html')
+        
+            
     
     
 @app.route('/read',methods=['POST'])
 def read():
     if request.method=='POST':
         mycol=conn()
-        name=request.form.get('name')
-        query={"name":name}
+        id=request.form.get('id')
+        query={"user_id":id}
         data=mycol.find_one(query)
         return render_template('read.html',mdata=data)
     
@@ -55,8 +61,8 @@ def update():
         newinfo=request.form.get('info')
         query={"user_id":{"$eq":userid}}
         present_data=mycol.find_one(query)
-        dvalue=request.form.get('fvalue')
-        dropvalue=int(dvalue)
+        dropvalue=int(request.form.get('fvalue'))
+        #dropvalue=int(dvalue)
         #print(type(dropvalue))
         #print(present_data)
         if (dropvalue==1):
@@ -65,11 +71,13 @@ def update():
             query2={"user_id":userid}
             data=mycol.find_one(query2)
             
+            
         elif (dropvalue==2):
             new_data={'$set':{"phone":newinfo}}
             mycol.update_one(present_data,new_data)
             query2={"user_id":userid}
             data=mycol.find_one(query2)
+            
             
         elif (dropvalue==3):
             new_data={'$set':{"email":newinfo}}
@@ -77,13 +85,15 @@ def update():
             query2={"user_id":userid}
             data=mycol.find_one(query2)
             
+            
         else:
             new_data={'$set':{"address":newinfo}}
             mycol.update_one(present_data,new_data)
             query2={"user_id":userid}
             data=mycol.find_one(query2)
+            
            
-        return render_template('read.html',mdata=data)    
+        return render_template('update.html',mdata=data)    
         
         
             
@@ -98,10 +108,10 @@ def update():
 def delete():
     if request.method=='POST':
         mycol=conn()
-        name=request.form.get('name')
-        query={"name":name}
-        data=mycol.delete_one(query)
-        return render_template('read.html',mdata=data)
+        uid=request.form.get('uid')
+        query={"user_id":uid}
+        mycol.delete_one(query)
+        return render_template('delete.html')
         
        
     
